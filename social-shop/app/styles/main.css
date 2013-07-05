@@ -1,0 +1,19 @@
+body {
+	margin-top: 20px;
+}
+
+.input-append{
+    width: 100%;
+}
+
+.input-append input[type="text"]{
+    width: 100%;
+}
+
+.input-fluid {
+	padding-right: 53px;
+}
+
+.selectable {
+	cursor: pointer;
+}
