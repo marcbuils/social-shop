@@ -2,40 +2,50 @@
 	<div class="row-fluid">
 		<div class="span3">
 			<article ng-controller="SearchCustomer" class="well">
+				<p class="text-center">
+					<strong>Rechercher un client</strong>
+				</p>
 				<form class="input-fluid" ng-submit="search()">
 					<div class="input-append">
-						<input type="text" ng-model="customer" required placeholder="Nom ou code" />
+						<input type="text" ng-model="customer" required
+							placeholder="Nom ou code" />
 						<button class="btn">
 							<i class="icon-search"></i>
 						</button>
 					</div>
 				</form>
-				<button class="btn btn-large btn-block" ng-click="">Nouveau Client</button>
-				
+				<button class="btn btn-large btn-block" ng-click="">Nouveau
+					Client</button>
+
 				<!-- Recherche Client -->
-				<div modal="serviceCustomer.hasCustomers" close="close()" options="opts">
-				    <div class="modal-header">
-			            <h3>I'm a modal!</h3>
-			        </div>
-			        <div class="modal-body">
+				<div modal="serviceCustomer.hasCustomers" close="close()"
+					options="opts">
+					<div class="modal-header">
+						<h3>Liste des clients correspondants</h3>
+					</div>
+					<div class="modal-body pre-scrollable">
 						<table class="table table-bordered table-striped table-condensed">
 							<thead>
 								<tr>
+									<th>Id</th>
 									<th>Nom</th>
 									<th>Prénom</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="selectable" ng-repeat="customer in serviceCustomer.customers" ng-click="selectCustomer(customer)">
+								<tr class="selectable"
+									ng-repeat="customer in serviceCustomer.customers"
+									ng-click="selectCustomer(customer)">
+									<td>{{customer.id}}</td>
 									<td>{{customer.lastname}}</td>
 									<td>{{customer.firstname}}</td>
 								</tr>
 							</tbody>
 						</table>
-			        </div>
-			        <div class="modal-footer">
-			            <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
-			        </div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn cancel" ng-click="close()">Annuler</button>
+					</div>
 				</div>
 			</article>
 			<article ng-controller="InfosCustomer" class="well">
@@ -60,28 +70,12 @@
 							<td>{{serviceCustomer.customer.firstname}}</td>
 						</tr>
 						<tr>
-							<td>Ville</td>
-							<td></td>
+							<td>E-mail</td>
+							<td>{{serviceCustomer.customer.email}}</td>
 						</tr>
 						<tr>
 							<td>Depuis</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Panier moy.</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>CA total</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Freq. visite</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Compte</td>
-							<td></td>
+							<td>{{serviceCustomer.customer.date_add}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -90,7 +84,10 @@
 			</article>
 		</div>
 		<div class="span6">
-					<article class="well">
+			<article ng-controller="ListProducts" class="well">
+				<p class="text-center">
+					<strong>Commande</strong>
+				</p>
 				<table class="table table-bordered table-striped table-condensed">
 					<thead>
 						<tr>
@@ -102,27 +99,79 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Ipod</td>
-							<td>2</td>
-							<td>120€</td>
-							<td>240€</td>
-							<td></td>
+						<tr ng-repeat="product in serviceProduct.listProducts">
+							<td>{{product.name}}</td>
+							<td>{{product.quantity}}
+								<div class="btn-group pull-right">
+									<button class="btn btn-mini" ng-click="incQuantity(product)">
+										<i class="icon-plus-sign"></i>
+									</button>
+									<button class="btn btn-mini" ng-click="disQuantity(product)">
+										<i class="icon-minus-sign"></i>
+									</button>
+								</div>
+							</td>
+							<td><span class="pull-right">{{product.price}}€</span></td>
+							<td><span class="pull-right">{{product.total}}€</span></td>
+							<td>
+								<div class="pull-right">
+									<button class="btn btn-mini" ng-click="removeProduct(product)">
+										<i class="icon-remove-sign"></i>
+									</button>
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>
+				<p class="text-right">
+					<strong>Total :</strong> {{serviceProduct.total}}€
+				</p>
 			</article>
 		</div>
 		<div class="span3">
 			<article ng-controller="AddProduct" class="well">
-				<form class="input-fluid">
+				<p class="text-center">
+					<strong>Ajouter un produit</strong>
+				</p>
+				<form ng-submit="search()" class="input-fluid">
 					<div class="input-append">
-						<input type="text" ng-model="product" required placeholder="Produit" />
-						<button class="btn" ng-click="search()">
+						<input type="text" ng-model="product" required
+							placeholder="Produit" />
+						<button class="btn">
 							<i class="icon-plus-sign"></i>
 						</button>
 					</div>
 				</form>
+				<!-- Ajout Produit -->
+				<div modal="serviceProduct.hasProducts" close="close()"
+					options="opts">
+					<div class="modal-header">
+						<h3>Liste des produits correspondants</h3>
+					</div>
+					<div class="modal-body pre-scrollable">
+						<table class="table table-bordered table-striped table-condensed">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Nom</th>
+									<th>Prix</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="selectable"
+									ng-repeat="product in serviceProduct.products"
+									ng-click="selectProduct(product)">
+									<td>{{product.id}}</td>
+									<td>{{product.name}}</td>
+									<td><span class="pull-right">{{product.price}}€</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button class="btn cancel" ng-click="close()">Annuler</button>
+					</div>
+				</div>
 			</article>
 		</div>
 	</div>

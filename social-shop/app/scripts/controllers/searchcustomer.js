@@ -10,6 +10,7 @@
 		
 		$scope.search = function () {
 			$serviceCustomer.search($scope.customer);
+			$scope.customer = '';
 		};
 		
 		$scope.selectCustomer = function (customer) {
